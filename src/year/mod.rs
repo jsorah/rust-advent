@@ -1,25 +1,25 @@
 mod year2015;
 
-use crate::year::year2015::Year2015;
+use crate::{year::year2015::Year2015, Y2015Command, YearCommand};
 
 pub enum Year {
-    Y2015
+    Y2015(Y2015Command)
 }
 
 impl Year {
-    pub fn run(&self, day_of_year: u8) {
+    pub fn run(&self) {
         match self {
-            Year::Y2015 => Year2015::run_day(day_of_year),
+            Year::Y2015(cmd) => Year2015::run_day(cmd),
         }
     }
 }
 
-impl TryFrom<u16> for Year {
+impl TryFrom<YearCommand> for Year {
+    // this still feels really complicated
     type Error = ();
-
-    fn try_from(value: u16) -> Result<Self, Self::Error> {
+    fn try_from(value: YearCommand) -> Result<Self, Self::Error> {
         match value {
-            2015 => Ok(Year::Y2015),
+            YearCommand::Y2015 {command} => Ok(Year::Y2015(command)),
             _ => Err(()),
         }
     }

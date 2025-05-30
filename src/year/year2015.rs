@@ -6,28 +6,27 @@ use std::sync::{
 };
 use std::thread;
 
+use crate::Y2015Command;
+
 pub struct Year2015;
 
 impl Year2015 {
-    pub fn run_day(day: u8) {
+
+    pub fn run_day(day: &Y2015Command) {
         match day {
-            1 => Self::day_1(),
-            3 => Self::day_3(),
-            4 => Self::day_4(),
-            _ => println!("No code!"),
+            Y2015Command::Day1 {  } => Day1::run(),
+            Y2015Command::Day3 {  } => Day3::run(),
+            Y2015Command::Day4 { threaded, prefix  } => {
+                if *threaded {
+                    println!("Threaded! Prefix: {}", prefix);
+                    Day4::run_threaded(prefix);
+                } else {
+                    println!("Not Threaded :-( Prefix: {}",prefix);
+                    Day4::run_single(prefix);
+                }
+            },
+            _ => println!("No code!")
         }
-    }
-
-    fn day_1() {
-        Day1::run();
-    }
-
-    fn day_3() {
-        Day3::run();
-    }
-
-    fn day_4() {
-        Day4::run();
     }
 }
 
@@ -120,11 +119,12 @@ impl Day3 {
 struct Day4;
 
 impl Day4 {
+
     // brute force impl
-    fn run_bruteforce() {
+    fn run_single(prefix: &String) {
         let mut n: u64 = 0;
         loop {
-            if Self::number_is_md5(n) {
+            if Self::is_target_md5(n, prefix) {
                 println!("{}", n);
                 break;
             }
@@ -133,20 +133,21 @@ impl Day4 {
         }
     }
 
-    fn number_is_md5(n: u64) -> bool {
+    fn is_target_md5(n: u64, prefix: &String) -> bool {
         let val = format!("iwrupvqb{}", n);
 
         let merr = md5::compute(val.as_bytes());
         let output = format!("{:x}", merr);
 
-        output.starts_with("000000")
+        output.starts_with(prefix)
     }
 
-    fn run() {
+    fn run_threaded(prefix : &String) {
         let mut handles = Vec::new();
 
-        let num_threads: u8 = 16;
+        let num_threads: u8 = 8;
         let block_size = 25_000;
+
         let result = Arc::new(AtomicU64::new(u64::MAX));
         let counter = Arc::new(AtomicU64::new(0));
         let found = Arc::new(AtomicBool::new(false));
@@ -155,13 +156,14 @@ impl Day4 {
             let counter = Arc::clone(&counter);
             let found = Arc::clone(&found);
             let result = Arc::clone(&result);
-
+            
+            let prefix = prefix.clone();
             let handle = thread::spawn(move || {
                 while !found.load(Ordering::Relaxed) {
                     let start = counter.fetch_add(block_size, Ordering::Relaxed);
                     let end = start + block_size;
                     for n in start..end {
-                        if Self::number_is_md5(n) {
+                        if Self::is_target_md5(n, &prefix) {
                             let prev = result.fetch_min(n, Ordering::SeqCst);
                             if n < prev {
                                 found.store(true, Ordering::SeqCst);
