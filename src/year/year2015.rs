@@ -151,7 +151,7 @@ impl Day4 {
         let counter = Arc::new(AtomicU64::new(0));
         let found = Arc::new(AtomicBool::new(false));
 
-        for i in 0..num_threads {
+        for _i in 0..num_threads {
             let counter = Arc::clone(&counter);
             let found = Arc::clone(&found);
             let result = Arc::clone(&result);
