@@ -1,5 +1,34 @@
-mod year2015;
-use crate::{year::year2015::Year2015, Y2015Command, YearCommand};
+pub mod year2015;
+use crate::year::year2015::Year2015;
+
+use clap::Subcommand;
+
+#[derive(Subcommand, Debug)]
+pub enum YearCommand {
+    #[clap(name = "2015")]
+    Y2015 {
+        #[command(subcommand)]
+        command: Y2015Command,
+    },
+}
+
+#[derive(Subcommand, Debug)]
+pub enum Y2015Command {
+    #[clap(name = "1")]
+    Day1 {},
+    #[clap(name = "3")]
+    Day3 {},
+    #[clap(name = "4")]
+    Day4 {
+        #[arg(long)]
+        threaded: bool,
+
+        #[arg(long, default_value = "000000")]
+        prefix: String,
+    },
+    #[clap(name = "5")]
+    Day5 {},
+}
 
 pub enum Year {
     Y2015(Y2015Command),

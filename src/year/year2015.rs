@@ -1,15 +1,16 @@
 mod day1;
 mod day3;
 mod day4;
+pub mod day5;
 
 use log::error;
 use log::info;
 
-use crate::Y2015Command;
-
 use crate::year::year2015::day1::Day1;
 use crate::year::year2015::day3::Day3;
 use crate::year::year2015::day4::Day4;
+
+use super::Y2015Command;
 
 pub struct Year2015;
 
