@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use log::info;
+
 #[derive(Debug, Eq, PartialEq, Hash)]
 struct HouseLocation {
     pub x: i32,
@@ -42,6 +44,6 @@ impl Day3 {
             map.entry(new_location).and_modify(|v| *v += 1).or_insert(1);
         }
 
-        println!("We visited {} ", map.len());
+        info!("We visited {} ", map.len());
     }
 }

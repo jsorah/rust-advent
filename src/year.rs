@@ -1,8 +1,8 @@
 mod year2015;
-use crate::{year::year2015::Year2015, Y2015Command, YearCommand};
+use crate::{Y2015Command, YearCommand, year::year2015::Year2015};
 
 pub enum Year {
-    Y2015(Y2015Command)
+    Y2015(Y2015Command),
 }
 
 impl Year {
@@ -18,7 +18,7 @@ impl TryFrom<YearCommand> for Year {
     type Error = ();
     fn try_from(value: YearCommand) -> Result<Self, Self::Error> {
         match value {
-            YearCommand::Y2015 {command} => Ok(Year::Y2015(command)),
+            YearCommand::Y2015 { command } => Ok(Year::Y2015(command)),
             _ => Err(()),
         }
     }

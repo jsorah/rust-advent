@@ -1,3 +1,5 @@
+use log::info;
+
 pub struct Day1;
 impl Day1 {
     pub fn run() {
@@ -27,10 +29,10 @@ impl Day1 {
             }
         }
 
-        println!("{current_floor}");
+        info!("{current_floor}");
         match first_position_basement {
-            Some(v) => println!("First time in basement - {v}"),
-            None => println!("Didn't go in the basement"),
+            Some(v) => info!("First time in basement - {v}"),
+            None => info!("Didn't go in the basement"),
         }
     }
 }

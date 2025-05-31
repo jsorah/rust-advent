@@ -5,15 +5,16 @@ use std::sync::{
 };
 use std::thread;
 
+use log::info;
+
 pub struct Day4;
 impl Day4 {
-
     // brute force impl
     pub fn run_single(prefix: &String) {
         let mut n: u64 = 0;
         loop {
             if Self::is_target_md5(n, prefix) {
-                println!("{}", n);
+                info!("{}", n);
                 break;
             }
 
@@ -30,7 +31,7 @@ impl Day4 {
         output.starts_with(prefix)
     }
 
-    pub fn run_threaded(prefix : &String) {
+    pub fn run_threaded(prefix: &String) {
         let mut handles = Vec::new();
 
         let num_threads: u8 = 8;
@@ -44,7 +45,7 @@ impl Day4 {
             let counter = Arc::clone(&counter);
             let found = Arc::clone(&found);
             let result = Arc::clone(&result);
-            
+
             let prefix = prefix.clone();
             let handle = thread::spawn(move || {
                 while !found.load(Ordering::Relaxed) {
@@ -72,9 +73,9 @@ impl Day4 {
         let final_result = result.load(Ordering::SeqCst);
 
         if final_result != u64::MAX {
-            println!("Lowest matching number: {}", final_result);
+            info!("Lowest matching number: {}", final_result);
         } else {
-            println!("No match found.");
+            info!("No match found.");
         }
     }
 }

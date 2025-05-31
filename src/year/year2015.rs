@@ -2,6 +2,9 @@ mod day1;
 mod day3;
 mod day4;
 
+use log::info;
+use log::error;
+
 use crate::Y2015Command;
 
 use crate::year::year2015::day1::Day1;
@@ -17,14 +20,14 @@ impl Year2015 {
             Y2015Command::Day3 {} => Day3::run(),
             Y2015Command::Day4 { threaded, prefix } => {
                 if *threaded {
-                    println!("Threaded! Prefix: {}", prefix);
+                    info!("Threaded! Prefix: {}", prefix);
                     Day4::run_threaded(prefix);
                 } else {
-                    println!("Not Threaded :-( Prefix: {}", prefix);
+                    info!("Not Threaded :-( Prefix: {}", prefix);
                     Day4::run_single(prefix);
                 }
             }
-            _ => println!("No code!"),
+            _ => error!("No code!"),
         }
     }
 }
