@@ -1,7 +1,7 @@
 use std::sync::atomic::AtomicBool;
 use std::sync::{
-    Arc,
     atomic::{AtomicU64, Ordering},
+    Arc,
 };
 use std::thread;
 

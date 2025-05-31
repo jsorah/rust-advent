@@ -2,8 +2,8 @@ mod day1;
 mod day3;
 mod day4;
 
-use log::info;
 use log::error;
+use log::info;
 
 use crate::Y2015Command;
 
