@@ -15,6 +15,7 @@ struct Args {
 
 #[derive(Subcommand, Debug)]
 enum YearCommand {
+    #[clap(name = "2015")]
     Y2015 {
         #[command(subcommand)]
         command: Y2015Command
@@ -23,10 +24,13 @@ enum YearCommand {
 
 #[derive(Subcommand, Debug)]
 enum Y2015Command {
+    #[clap(name = "1")]
     Day1 {
     },
+    #[clap(name = "3")]
     Day3 {
     },
+    #[clap(name = "4")]
     Day4 {
         #[arg(long)]
         threaded: bool,
@@ -34,6 +38,7 @@ enum Y2015Command {
         #[arg(long, default_value = "000000")]
         prefix: String,
     },
+    #[clap(name = "5")]
     Day5 {
         
     }

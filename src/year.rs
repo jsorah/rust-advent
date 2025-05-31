@@ -1,5 +1,4 @@
 mod year2015;
-
 use crate::{year::year2015::Year2015, Y2015Command, YearCommand};
 
 pub enum Year {
