@@ -12,15 +12,20 @@ const INPUT: &str = include_str!("day5/input");
 
 impl Day5 {
     pub fn run() {
-        let mut count = 0;
-        for line in INPUT.lines() {
-            match Self::naughty_or_nice(line.to_string()) {
-                NaughtyOrNice::Nice(_s) => count += 1,
-                _ => continue,
-            }
-        }
+        let count = INPUT
+            .lines()
+            .map(|s| Self::naughty_or_nice(s.to_string()))
+            .filter(|s| matches!(s, NaughtyOrNice::Nice(_)))
+            .count();
 
         info!("{}", count);
+    }
+
+    pub fn is_vowel(c: char) -> bool {
+        match c {
+            'a' | 'e' | 'i' | 'o' | 'u' => true,
+            _ => false
+        }
     }
 
     pub fn naughty_or_nice(s: String) -> NaughtyOrNice {
@@ -29,12 +34,11 @@ impl Day5 {
         let mut has_double_letter = false;
 
         let mut vowel_count = 0;
-        let vowels = "aeiouAEIOU";
 
         let prohibited_strings = [('a', 'b'), ('c', 'd'), ('p', 'q'), ('x', 'y')];
 
         for (_i, c) in s.chars().enumerate() {
-            if vowels.contains(c) {
+            if Self::is_vowel(c) {
                 vowel_count += 1;
             }
 
