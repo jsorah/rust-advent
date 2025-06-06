@@ -9,6 +9,7 @@ use log::info;
 use crate::year::year2015::day1::Day1;
 use crate::year::year2015::day3::Day3;
 use crate::year::year2015::day4::Day4;
+use crate::year::year2015::day5::Day5;
 
 use super::Y2015Command;
 
@@ -28,6 +29,7 @@ impl Year2015 {
                     Day4::run_single(prefix);
                 }
             }
+            Y2015Command::Day5 {} => Day5::run(),
             _ => error!("No code!"),
         }
     }
